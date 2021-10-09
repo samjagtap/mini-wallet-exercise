@@ -9,22 +9,22 @@ Mini Wallet Exercise
 git clone https://github.com/samjagtap/mini-wallet-exercise.git
 
 # If you don't already have virtualenv then install .You can install them as follows.
-sudo apt-get install python3-pip
-sudo pip3 install virtualenv
+1. sudo apt-get install python3-pip
+2. sudo pip3 install virtualenv
 
 # Then set up your virtual env
-virtual .env
-source .env/bin/activate
-pip install -r requirements.txt
+1. virtual .env
+2. source .env/bin/activate
+3. pip install -r requirements.txt
 
 # Run migrations
-python manage.py makemigrations
-python manage.py migrate
+1. python manage.py makemigrations
+2. python manage.py migrate
 
 # Run setup script then run the django app
 
-source .env/bin/activate 
-python manage.py runscript setup_customer --traceback
-python manage.py runserver_plus 
+1. source .env/bin/activate 
+2. python manage.py runscript setup_customer --traceback
+3. python manage.py runserver
 
 Then you can access your instance on the port and url specified. But it should be something like this https://127.0.0.1:8000
