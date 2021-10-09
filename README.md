@@ -2,8 +2,8 @@
 Mini Wallet Exercise
 
 # System requirements
-Python 3.6.7
-Ubuntu 20.04
+1. Python 3.6.7
+2. Ubuntu 20.04
 
 # Clone the code
 git clone https://github.com/samjagtap/mini-wallet-exercise.git
