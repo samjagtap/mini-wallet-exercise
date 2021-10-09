@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'wallets',  # wallets app
     'rest_framework',  # Django Rest Framework to create Rest API endpoints
-    'rest_framework.authtoken'  # For Token authentication
+    'rest_framework.authtoken',  # For Token authentication
+    'django_extensions'
 ]
 
 MIDDLEWARE = [

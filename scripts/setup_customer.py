@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from exercise.wallets.models import Customer
+from wallets.models import Customer
 
 
 def run():
