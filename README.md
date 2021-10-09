@@ -25,7 +25,7 @@ git clone https://github.com/samjagtap/mini-wallet-exercise.git
 
 1. source .env/bin/activate 
 2. python manage.py runscript setup_customer --traceback
-3. After running the script you will get "customer_xid". Use this to access our first (http://localhost/api/v1/init) API enpoint. 
+3. After running the script you will get "customer_xid". Use this to access our first (http://localhost/api/v1/init) API endpoint. 
 4. python manage.py runserver
 
 Then you can access your instance on the port and url specified. But it should be something like this https://127.0.0.1:8000
