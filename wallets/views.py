@@ -1,20 +1,21 @@
 import datetime
 from django.contrib.auth.models import User
 from rest_framework.generics import GenericAPIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Customer, Wallet, Transaction
+from .utils import is_valid_amount, is_valid_uuid
 
 
-class GetTokenView(GenericAPIView):
+class GetTokenView(APIView):
     """This view is not protected by Token Authentication.
      So that customer can get his/her token by providing customer_xid."""
 
     def post(self, request, *args, **kwargs):
         customer_xid = request.data.get('customer_xid', None)
-        if customer_xid and len(customer_xid) == 36:
-            print(len(customer_xid))
+        if is_valid_uuid(customer_xid):
             customer = Customer.objects.filter(customer_xid=str(customer_xid)).first()
             if customer:
                 # Create wallet/account for customer if not exists.
@@ -32,7 +33,7 @@ class GetTokenView(GenericAPIView):
         return Response(response)
 
 
-class WalletView(GenericAPIView):
+class WalletView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
@@ -103,14 +104,14 @@ class WalletView(GenericAPIView):
         return Response(response)
 
 
-class DepositView(GenericAPIView):
+class DepositView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
         amount = request.data.get('amount', None)
         reference_id = request.data.get('reference_id', None)
-        if amount and reference_id and len(reference_id) == 36:
-            if not Transaction.objects.filter(reference_id=reference_id).first():
+        if is_valid_amount(amount) and is_valid_uuid(reference_id):
+            if not Transaction.objects.filter(reference_id=reference_id, transaction_type=Transaction.TransactionTypes.Deposit).first():
                 customer = Customer.objects.filter(customer_profile=request.user).first()
                 wallet = Wallet.objects.filter(owned_by=customer).first()
                 if wallet and wallet.status == Wallet.Statuses.Enabled:
@@ -144,14 +145,14 @@ class DepositView(GenericAPIView):
         return Response(response)
 
 
-class WithdrawalView(GenericAPIView):
+class WithdrawalView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, *args, **kwargs):
         amount = request.data.get('amount', None)
         reference_id = request.data.get('reference_id', None)
-        if amount and reference_id and len(reference_id) == 36:
-            if not Transaction.objects.filter(reference_id=reference_id).first():
+        if is_valid_amount(amount) and is_valid_uuid(reference_id):
+            if not Transaction.objects.filter(reference_id=reference_id, transaction_type=Transaction.TransactionTypes.Withdrawal).first():
                 customer = Customer.objects.filter(customer_profile=request.user).first()
                 wallet = Wallet.objects.filter(owned_by=customer).first()
                 if wallet and wallet.status == Wallet.Statuses.Enabled:
